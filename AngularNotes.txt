@@ -74,3 +74,44 @@ Angular turns this syntactic sugar into web components like this:
         {{ i }}: {{ passenger.fullname }}
     </li>
 </template>
+
+Class Bindings
+<span 
+    class="status"
+    [class.checked-in]="passenger.checkedIn"
+></span>
+Here we have class property one way binding. It adds the 'checked-in' class
+to the span if passenger.checkedIn is true
+
+<span 
+    class="status"
+    [ngClass]="{ 
+        'checked-in': passenger.checkedIn ,
+        'checked-out': !passenger.checkedIn
+    }"
+></span>
+Here we are using ngClass property binding. We can now have multiple classes on an 
+element. You can specify an object where the keys are the css classes you want to 
+add and the value is boolean values
+
+
+Style Bindings
+ <span 
+    class="status"
+    [style.backgroundColor]="(passenger.checkedIn ? '#2ecc71' : '#c0392b')"
+></span>
+<span 
+    class="status"
+    [ngStyle]="{
+        backgroundColor: (passenger.checkedIn ? '#2ecc71' : '#c0392b')
+    }"
+></span>
+
+Pipes
+A pipe is just a function that returns something new. It is a data transformation
+function
+<p>{{ passenger | json }}</p>
+You can even pipe multiple pipes:
+(passenger.checkInDate | date: 'yMMMd' | uppercase)
+
+
