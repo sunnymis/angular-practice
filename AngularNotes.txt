@@ -114,4 +114,7 @@ function
 You can even pipe multiple pipes:
 (passenger.checkInDate | date: 'yMMMd' | uppercase)
 
+Safe Navigation Operator
+{{ passenger.children?.length}}
+If children exists, then continue to the property length
 
