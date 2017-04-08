@@ -51,3 +51,26 @@ Make a ref by using # followed by the name
 <input type="text #username>
 Access it in DOM anywhere
 <button (click)="someFn(username.value)"></button>
+
+*ngIf
+Conditionally show DOM nodes
+<div *ngIf="name.length > 2"></div>
+Angular creates Web Components from the components you create. This means that all
+HTML you write is taken and placed inside <template></template> tags in the DOM. 
+The * in the ngIf is syntactic sugar. It makes it so we don't have to write the
+content in <template> tags, but let Angualr do it for us. the [ngIf] property 
+binding actually sits on the <template> tag above all the rest of the code. 
+<template [ngIf]="name.length > 2">
+    <div>..</div>
+</template>
+
+*ngFor
+<li *ngFor="let passenger of passengers; let i = index;">
+    {{ i }}: {{ passenger.fullname }}
+</li>
+Angular turns this syntactic sugar into web components like this:
+<template ngFor let-passenger let-i="index" [ngForOf]="passengers">
+    <li>
+        {{ i }}: {{ passenger.fullname }}
+    </li>
+</template>
