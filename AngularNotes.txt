@@ -1,0 +1,53 @@
+Component
+The @Component decorator tells Angular that this function/ES6 Class is an Angular Component, 
+not just a regular function. It injects meta data into the class 
+Component Properties:
+selector - Creates the HTML tag for the component
+template - The HTML content for the component (inline)
+templateUrl - The HTML content for the component in a separate file
+
+NgModules
+@NgModule decorator tells Angular that the current module is an NgModule
+NgModule Properties:
+bootstrap - Only on the root module's decorator. The root module instantiates the Angular
+app. Its an array of Components to tell Angular what components to bootstrap. Usually 
+it's just one, the Root App Component
+declarations -  This is where you register components with a certain module
+imports - List of modules you are importing into this module
+
+Imports in the root module:
+BrowserModule: If you are building an Angular app in the browser, you need this
+CommonModule: Useful when declaring directives
+
+Bootstrapping in main
+PlatformBrowserDyanmic - This import allows you to compile your app in the browser (client side)
+
+Interpolation
+In the template you can write an expression consisting of properties from the class wrapped in
+curly braces
+{{ title }}
+
+Property Binding
+Wrap an HTML attribue in hard brackets [] for a one way data Binding. 
+<img [src]="logo"></img>
+where logo is some property in your component with a string value
+
+Event Binding
+Wrap HTML events in parentheses () for event Binding
+<div (click)="someFn"></div>
+<input (blur)="handleBlur($event)">
+[ngModel]="property" Talks with the HTML element you put it on. Essentially [value]
+(ngModelChange)="fn($event)" Event binding on the model property
+Essentially we are one way databinding with ngModel, then when a change event occurs, call the
+listener and update the property value.
+This ngModel/ngModelChange combo is basically two way data binding. To make the syntax shorter:
+
+Two Way Data Binding
+[(ngModel)]='property'
+
+Template Ref
+Create a reference to a HTML DOM node and make it accessible anywhere in the template
+Make a ref by using # followed by the name
+<input type="text #username>
+Access it in DOM anywhere
+<button (click)="someFn(username.value)"></button>
