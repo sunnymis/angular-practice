@@ -118,3 +118,11 @@ Safe Navigation Operator
 {{ passenger.children?.length}}
 If children exists, then continue to the property length
 
+Importing an NgModule
+When you are importing a custom NgModule that you made, it is important to remember a couple things
+First, you have to add the custom module to your root module's imports list
+Second, in your custom module, remember to declare all Components that module uses in Declarations array
+as well as exporting the components you want to be public in the Exports array. 
+
+ngOnInit
+Lifecycle hook that gets called when Angular initializes the component. 
