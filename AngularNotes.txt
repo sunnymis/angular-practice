@@ -126,3 +126,7 @@ as well as exporting the components you want to be public in the Exports array.
 
 ngOnInit
 Lifecycle hook that gets called when Angular initializes the component. 
+
+ngOnChanges
+Lifecycle hook that gets called before ngOnInit, and returns an object with the 
+current value and previous values of the data being sent into the component
