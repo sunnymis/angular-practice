@@ -130,3 +130,15 @@ Lifecycle hook that gets called when Angular initializes the component.
 ngOnChanges
 Lifecycle hook that gets called before ngOnInit, and returns an object with the 
 current value and previous values of the data being sent into the component
+
+Dependency Injection 
+Any class you want to inject dependencies into, you have to mark as Injectable() 
+@Injectable()
+export class SomeClass {
+    constructor(private http: Http)
+    ...
+}
+This tells Angular that this class is able to have other modules be injected into it
+Services without dependencies can be sent through the constructor without @Injectable()
+but that is bad practice. Any data that is being injected from a Provider, must have 
+@Injectable();
