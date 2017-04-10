@@ -11,9 +11,14 @@ import { Passenger } from "../../models/passenger.interface";
             [items]="passengers"
         >
         </passenger-count>
+        <div *ngFor="let passenger of passengers">
+            {{ passenger.fullname }}
+        </div>
         <passenger-detail
             *ngFor="let passenger of passengers"
-            [detail]="passenger">
+            [detail]="passenger"
+            (remove)="handleRemove($event)"
+            (edit)="handleEdit($event)">
         </passenger-detail>
     </div>
     `
@@ -42,5 +47,19 @@ export class PassengerDashboardComponent implements OnInit {
             checkInDate: null,
             children: [{ name: 'Jessica', age: 1 }]
         }]
+    }
+
+    handleRemove(removedPassenger) {
+        this.passengers = this.passengers.filter((passenger: Passenger) => passenger.id != removedPassenger.id);
+    }
+
+    handleEdit(edittedPassenger) {
+        this.passengers = this.passengers.map((passenger: Passenger) => {
+            if (passenger.id === edittedPassenger.id) {
+                passenger = Object.assign({}, passenger, edittedPassenger);
+            }
+            return passenger;
+        });
+        console.log(this.passengers);
     }
 }

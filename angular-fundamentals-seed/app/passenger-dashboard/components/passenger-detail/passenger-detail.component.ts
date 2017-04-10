@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { Passenger } from '../../models/passenger.interface';
 
 @Component({
@@ -7,7 +7,14 @@ import { Passenger } from '../../models/passenger.interface';
     template: `
         <div>
             <span class="status" [class.checked-in]="detail.checkedIn"></span>
-            <p>{{ detail.fullname }}</p>
+            <p *ngIf="!editing">{{ detail.fullname }}</p>
+            <div *ngIf="editing">
+                <input 
+                    [value]="detail.fullname"
+                    (input)="onNameChange(name.value)"
+                    #name
+                >
+            </div>
             <div class="date">
                 Check in Date:
                 {{ detail.checkInDate ? (detail.checkInDate | date: 'yMMMd' | uppercase) : 'Not checked in' }}
@@ -16,10 +23,47 @@ import { Passenger } from '../../models/passenger.interface';
                 Children:
                 {{ detail.children?.length || 0}}
             </div>
+            <button (click)="toggleEdit()">
+                {{ editing ? 'Done' : 'Edit' }}
+            </button>
+            <button (click)="onRemove()">
+                Remove
+            </button>
         </div>
     `
 })
 
-export class PassengerDetailComponent {
+export class PassengerDetailComponent implements OnChanges {
     @Input() detail: Passenger;
+    @Output() remove: EventEmitter<any> = new EventEmitter();
+    @Output() edit: EventEmitter<any> = new EventEmitter();
+
+    editing: boolean = false;
+
+    constructor() { }
+
+    ngOnChanges(changes) {
+        if (changes.detail) {
+            // We are reassignign the value of this.detail to 
+            // the value ngOnChanges initially receives. 
+            // Changing the reference makes it so we can have
+            // local state for the detail that doesn't affect
+            // root component references to this.detail. 
+            this.detail = Object.assign({}, changes.detail.currentValue);
+        }
+        console.log(changes);
+    }
+
+    onNameChange(value: string) {
+        this.detail.fullname = value;
+    }
+    toggleEdit() {
+        if (this.editing) {
+            this.edit.emit(this.detail);
+        }
+        this.editing = !this.editing;
+    }
+    onRemove() {
+        this.remove.emit(this.detail);
+    }
 }
