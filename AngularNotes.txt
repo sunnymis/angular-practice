@@ -142,3 +142,18 @@ This tells Angular that this class is able to have other modules be injected int
 Services without dependencies can be sent through the constructor without @Injectable()
 but that is bad practice. Any data that is being injected from a Provider, must have 
 @Injectable();
+
+HTTP Get Requests with Observables
+The call http.get(/path/to/api) returns an Observable response. We need to iterate over
+the response using the RXJS map function. 
+http.get()
+.map((response: Response) => response.json())
+For each data that is returned in the Observable, we convert it into json format.
+All this code is wrapped in a function: 
+getData() {
+    http.get().map()
+}
+When we call get data we are returned an Observable. We can then subscribe to the data
+from the Observable. 
+getData().subscribe((data) => ...)
+In the subscribe call, we get the data back as a callback. 

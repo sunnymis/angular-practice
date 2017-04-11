@@ -1,39 +1,39 @@
 {
-    "passengers": [
+  "passengers": [
+    {
+      "id": 1,
+      "fullname": "Sunny Mistry???",
+      "checkedIn": true,
+      "checkInDate": 1490742000000,
+      "children": [
         {
-            "id": 1,
-            "fullname": "Stttephen",
-            "checkedIn": true,
-            "checkInDate": 1490742000000,
-            "children": [
-                {
-                    "name": "Ted",
-                    "age": 12
-                },
-                {
-                    "name": "Chloe",
-                    "age": 7
-                }
-            ]
+          "name": "Ted",
+          "age": 12
         },
         {
-            "id": 2,
-            "fullname": "Rose",
-            "checkedIn": true,
-            "checkInDate": 1491606000000,
-            "children": null
-        },
-        {
-            "id": 3,
-            "fullname": "James",
-            "checkedIn": false,
-            "checkInDate": null,
-            "children": [
-                {
-                    "name": "Jessica",
-                    "age": 1
-                }
-            ]
+          "name": "Chloe",
+          "age": 7
         }
-    ]
+      ]
+    },
+    {
+      "id": 2,
+      "fullname": "Rose",
+      "checkedIn": true,
+      "checkInDate": 1491606000000,
+      "children": null
+    },
+    {
+      "id": 3,
+      "fullname": "James",
+      "checkedIn": false,
+      "checkInDate": null,
+      "children": [
+        {
+          "name": "Jessica",
+          "age": 1
+        }
+      ]
+    }
+  ]
 }
