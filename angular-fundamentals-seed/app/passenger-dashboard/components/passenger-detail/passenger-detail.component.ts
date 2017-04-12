@@ -19,10 +19,6 @@ import { Passenger } from '../../models/passenger.interface';
                 Check in Date:
                 {{ detail.checkInDate ? (detail.checkInDate | date: 'yMMMd' | uppercase) : 'Not checked in' }}
             </div>
-            <div class="children">
-                Children:
-                {{ detail.children?.length || 0}}
-            </div>
             <button (click)="toggleEdit()">
                 {{ editing ? 'Done' : 'Edit' }}
             </button>
@@ -67,3 +63,11 @@ export class PassengerDetailComponent implements OnChanges {
         this.remove.emit(this.detail);
     }
 }
+
+/*
+old children code
+<div class="children">
+    Children:
+    {{ detail.children?.length || 0}}
+</div>
+*/

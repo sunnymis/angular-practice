@@ -1,7 +1,7 @@
-export interface Child {
-    name: string,
-    age: number
-}
+// export interface Child {
+//     name: string,
+//     age: number
+// }
 
 
 export interface Passenger {
@@ -9,5 +9,6 @@ export interface Passenger {
     fullname: string,
     checkedIn: boolean,
     checkInDate?: number,
-    children: Child[] | null
+    baggage: string
+    //children: Child[] | null
 }

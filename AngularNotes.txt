@@ -157,3 +157,38 @@ When we call get data we are returned an Observable. We can then subscribe to th
 from the Observable. 
 getData().subscribe((data) => ...)
 In the subscribe call, we get the data back as a callback. 
+
+ngForm
+<form #form="ngForm" novalidate>
+The ngForm directive allows Angular to manage this form and all state changes/validation 
+from it's children. 
+novalidate makes it so the form doesn't autovalidate from the browser's native valdiation
+but instead use Angular's validation. 
+Inside an ngForm, the values for the form are stored from the name attribute of html elements
+For example:
+<input
+    type="text"
+    name="myName"
+    [ngModel]="obj.val">
+Here, myName will be a key in the ngForm's object of values. It's value is binded to ngModel, 
+which is one-way data bound to an object's value. The ngModel is local to the DOM element
+obj.val is the initial value for the ngModel. 
+Form Validation
+Example: 
+<input 
+    type="text"
+    name="id"
+    required
+    #id="ngModel"
+    [ngModel]="someObj.property">
+Here we are using a template ref to get a reference to the input. We are exporting the ngModel and
+setting our reference equal to it so we can expose the ngModel properties. 
+To get the properties we can do: 
+id.errors, id.dirty, id.errors.required. 
+Similarly, with the form template ref above, form.valid, form.invalid
+Then you can show/hide error messages by using ngIf="id.errors". If id.errors exists it has an object
+otherwise it's value is null. 
+Form Submission
+<form (ngSubmit)="handleSubmit(form.value, form.valid)" #form="ngForm">
+Since we are using a template ref for the form, we can just pass the entire form object into the
+handleSubmit function, or you can just pass specific values like form.value or form.valid
