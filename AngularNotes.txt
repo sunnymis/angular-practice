@@ -192,3 +192,40 @@ Form Submission
 <form (ngSubmit)="handleSubmit(form.value, form.valid)" #form="ngForm">
 Since we are using a template ref for the form, we can just pass the entire form object into the
 handleSubmit function, or you can just pass specific values like form.value or form.valid
+
+Routing
+import the modules: import { RouterModule, Routes } from '@angular/router';
+Import in module like 
+imports: [
+    RouterModule.forRoot(routes),
+]
+Where routes is an array of Route objects
+const routes: Route = [
+    { path: '', component: SomeComponent, pathMatch: 'full' }
+]
+So when the route matches '' entirely, show the SomeComponent
+Wildcard routes, routes that don't match any of the ones in the array can be made possible with:
+{ path: '**'}
+Redirects are made by removing the component property in the route with
+{ path: '', redirectTo: '/somePath'} 
+To show the right component, we need to add a directive called router-outlet:
+<router-outlet></router-outlet>
+This is essentially a container, exposed from the RouterModule, that will be where
+we inject components inside of. 
+Navigation is made possible with the routerLink property:
+<a 
+    routerLink="/"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{exact: true}">
+    Home
+</a>
+routerLink - sets the path to go to
+routerLinkActive - Adds the "active" class when it this route is active
+routerLinkActiveOptions - Bind an options object to this property. Here the object has the 
+exact property which will set this path active only if the route exactly matches this path
+Imperatively route: 
+this.router.navigate(['/passengers', passenger.id]);
+Once you've injected the router into the class, 
+    constructor(private router: Router) 
+you can use the navigate function to route using code instead of routerLink attribute. 
+
