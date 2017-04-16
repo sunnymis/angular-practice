@@ -311,3 +311,50 @@ a View's data after it's already been initialized. The data should be set before
 view is initialized. In dev mode you can inject ChangeDector module, and call detectChanges()
 function to notify angular to detect those changes to the ViewChild. You don't need to do 
 this in production though. 
+
+ElementRefs 
+<button #myBtn></button>
+@ViewChild('myBtn') myButtonElement: ElementRef;
+Query your template using template refs and ViewChild to get the ref. 
+myButtonElement.nativeElement gives you access to all the native DOM APIs. 
+myButtonElement.nativeElement.classList.add('someClass);
+
+NativeElement works on the Web but Angular can also deploy to mobile. So to make your code
+platform agnostic, you can inject the Renderer (from angular/core). 
+Renderer has functions such as myButtonElement.setElementAttribtue, setElementClass, invokeElementMethod()
+
+ViewContainerRef
+ViewChild's don't just have to return ElementRefs. They can also return ViewContainerRef. This is exaclty
+as it sounds, a reference to a view container. 
+@ViewChild('myDiv', { read: ViewContainerRef }) mydiv: ViewContainerRef;
+You add the read parameter so it knows to read it as a ViewContainerRef instead of ElementRef.
+You can create a component dynamically by: 
+this.mydiv.createComponent();
+createComponent() takes in a ComponentFactory, which is obtained by a ComponentFactoryResolver.
+After injecting Resolver (angular/core), you can make a ComponentFactoryResolver by: 
+componentFactory = resolver.resolveComponentFactory(someComponent);
+myNewComponent = this.mydiv.createComponent(componentFactory);
+Essentially this is what you're doing:
+1. Grab a reference to a ViewContainer (myDiv);
+2. Make a Factory, which is a function that creates other objects. This factory makes components
+3. Make a component with this factory
+In Dynamic Components, you can access the properties by:
+this.myNewComponent.instance.someProperty
+this.myNewComponent.instance.someEvent.subscribe(() => {})
+
+Component Definitions
+You can create a property to have a type of a specific component
+myComponent: ComponentRef<Comp>
+where Comp is a Custom Component. ComponentRef from angular/core
+
+TemplateRef
+<template #tmpl let-name>
+    {{ name }}
+</template>
+@ViewChild('tmpl) templ: TemplateRef<any>
+Inject a template:
+<ng-container
+    [ngTemplateOutlet]="tmpl"
+    [ngTemplateOutletContext]="{ name: Sunny }">
+</ng-container>
+or use ViewContainerRef.createEmbeddedView(tmpl, { name: 'Sunny' })
