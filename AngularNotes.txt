@@ -229,3 +229,85 @@ Once you've injected the router into the class,
     constructor(private router: Router) 
 you can use the navigate function to route using code instead of routerLink attribute. 
 
+Content Projection
+<my-custom-component>
+    <h1>Custom Content Here</h1>
+</my-custom-component>
+Then in the template of my-custom-component
+template: `
+<div><ng-content></ng-content></div>
+`
+You can even project custom components. 
+<my-custom-component>
+    <another-custom-component (event)="handleEvent($event)">
+    </another-custom-component>
+</my-custom-component>
+Injection Slots
+<ng-content select="h1"></ng-content>
+If you have a lot of DOM nodes that you want to project, 
+You can specify which DOM node to place to a specific ng-content.
+select works like querySelector, so you can have 'h3.class', '#myID', '.a-class'
+
+@ContentChild
+<A>
+ <B (event)="handleEvent($event)">
+ </B>
+</A>
+
+A.html
+<div>
+ <ng-content select="B"></ng-content>
+</div>
+
+Anything inside the tags of A is considered a ContentChild of A. So in this case, B is a 
+content child of A. Inside of component A, you might want to get some of the data from 
+it's child, Component B (such as event outputs). But all you have is a ng-content projection
+ of B. We can get a reference to component B to query it, using @ContentChild and the ng Lifecycle
+ hook: AfterContentInit. 
+
+export class A implements AfterContentInit {
+    @ContentChild(B) myBComponent: B; 
+    ngAfterContentInit() {
+        console.log(B); 
+    }
+}
+We define the @ContentChild annotation, pass in the B component to it, and define a variable
+myBComponent of type B. Now, once B is initialized in the dom (injected inside the ng-content)
+we can get access to it's values. If it has an Output event, we can subscribe to it's output:
+this.myBComponent.theOutputEvent.subscribe((valueOfOutput) => console.log(valueOfOutput));
+
+@ContentChildren
+Works just like @ContentChild, but this time you get a list of all the content child's you 
+specify. 
+@ContentChildren(B) myBComponents: QueryList<B>
+So myBComponents is a QueryList of B components. You can perform actions on it such as:
+myBComponents.map((b) => console.log(b));
+
+@ViewChild
+Declaring this works just like @ContentChild:
+@ViewChild(BComponent) b: BComponent; 
+The difference between ViewChild and ContentChild is that content child is templates that
+have been projected into the current component. And ViewChild is templates that exists
+on the current component itself. 
+<A>
+    <B>
+    </B>
+</A>
+A.html:
+<div>
+    <ng-content></ng-content>
+    <button></button>
+</div>
+Inside the A component class, B is a ContentChild. All the HTML for the A component is a 
+ViewChild of A. So, button and ng-content is a ViewChild. 
+
+@ViewChildren
+Works similarly to @ContentChildren, but for ViewChilds. 
+ViewChildren are not available at ngAfterContentInit, but are instead available at
+ngAfterViewInit. If you modify the data of a ViewChild inside ngAfterViewInit(), 
+for example setting a property on a ViewChild to a new value, Angular will throw an 
+error. This is because it goes against one way data flow. You are essentially updating 
+a View's data after it's already been initialized. The data should be set before the
+view is initialized. In dev mode you can inject ChangeDector module, and call detectChanges()
+function to notify angular to detect those changes to the ViewChild. You don't need to do 
+this in production though. 
