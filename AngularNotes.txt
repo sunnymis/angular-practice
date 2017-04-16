@@ -358,3 +358,26 @@ Inject a template:
     [ngTemplateOutletContext]="{ name: Sunny }">
 </ng-container>
 or use ViewContainerRef.createEmbeddedView(tmpl, { name: 'Sunny' })
+
+View Encapsulation
+@Component({
+    selector: ..
+    encapsulation: Emulated (default), Native, None
+})
+Emulated: Default behavior for Angular components. Emulates how shadow dom works. It creates 
+components with unique hashes, and applies styles specific to that component. 
+For example components will have attribute like: ng-content-zxc-04 
+Native: Use the browsers native shadow dom. Actual web platform specification.  
+No unique hashes added to the component, but the real shadow dom is used. 
+None: No shadow dom at all. Styles are globally available and will overrride everything 
+(not really a good practice)
+
+Change Detection Strategies for Better Performance
+By default, Angular checks every single property in your components and when those properties
+change, it rerenders the corresponding dom nodes. But if you use Immutable data, you would 
+re-assign the data every time some property changes. This re-assignment of the whole object
+makes Angular only detect 1 change, improving performance instead of having to check all 
+possible changes.
+ChangeDetectionStrategy.onPush makes it so Angular only creates a change detection if 
+a whole new object is created for any given input. If individual properties of an object
+change, nothing will happen. You have to re-assign it to a new object. 
