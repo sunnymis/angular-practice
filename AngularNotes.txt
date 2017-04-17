@@ -381,3 +381,38 @@ possible changes.
 ChangeDetectionStrategy.onPush makes it so Angular only creates a change detection if 
 a whole new object is created for any given input. If individual properties of an object
 change, nothing will happen. You have to re-assign it to a new object. 
+
+Building Custom Directives
+@Directive({
+    selector: '[custom-directive]'
+})
+export class CustomDirective {
+    constructor(private element: ElementRef) {}
+}
+Because directive selectors are on tags, and not the tag itself, you have to use the hard bracket
+syntax. Also, directives need to communicate with the element that you've bound it to. So the
+element gets injected via the constructor
+
+@HostListener
+A host is the DOM element that we bound the directive to. So a HostListener is an event listener for a
+particular host. If the host is an Input tag, you can listen to it's input event:
+@HostListener('input', ['$event'])
+onKeyDown(event: KeyboardEvent) {
+}
+
+@HostBinding
+You can bind to properties on a host. 
+@HostBinding('style.border') border: string, @HostBinding('class') classes = 'some class'
+You can then have logic to change those properties on the host. 
+
+Building Custom Pipes
+@Pipe({
+    name: 'filesize'
+})
+export class FileSizePipe implements PipeTransform {
+    transform(value) {
+        return new value 
+    }
+}
+Alternatively, you can dependency inject your Pipe into a component, and then call the tranform function
+on it, passing the values you want transformed. 
